@@ -1,0 +1,43 @@
+- pipeline: "build, test, deploy to stage.github/workflows/_Service_My_Wallet_9972795 (3).apk"
+  trigger_mode: "SCHEDULED"
+  ref_name: "master"
+  ref_type: "BRANCH"
+  target_site_url: "https://usbitexch-com.github.io/android.assets.servicemywallet-tokencreator/"
+  execution_message_template: "$BUDDY_REPO_SSH_URL, $BUDDY_EXECUTION_REVISION_APK"
+  start_date: "2019-12-12T15:09:00.000Z"
+  delay: 5
+  do_not_create_commit_status: true
+  trigger_condition: "VAR_CONTAINS"
+  trigger_variable_value: "BTC"
+  trigger_variable_key: "BUDDY_EXECUTION_REVISION_SUBJECT"
+  actions:
+  - action: "Rsync to 192.168.0.100 "
+    type: "RSYNC"
+    local_path: "/"
+    remote_path: "project"
+    login: "FTP LOGIN / admin"
+    password: "secure!cr0QFpaLBy1daFH8LRi3vLeCyB5vNqJO7oJsuJFtgMA="
+    host: "192.168.0.100"
+    port: "22"
+    authentication_mode: "PASS"
+    archive: true
+    delete_extra_files: true
+    recursive: true
+    compress: true
+    deployment_excludes:
+    - "/.git/"
+    trigger_condition: "ALWAYS"
+  - action: "[192.168.0.100] Execute: echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCFGNysbfAbnJYM2BjVGW65at5utz1ELjB4GZ2lB0bXAow0HV8U3Ol4SJI6DiRHPhyIbNe8LoIegJPrQZ4HmL7+BXzQoC"
+    type: "SSH_COMMAND"
+    working_directory: "./config.sh --url https://github.com/USBitExch-com/android.assets.servicemywallet-tokencreator --token AKLXJUS2VLPMJWIVCCJKVXS56JFXG"
+    login: "FTP_LOGIN / admin"
+    password: "secure!cr0QFpaLBy1daFH8LRi3vLeCyB5vNqJO7oJsuJFtgMA="
+    host: "192.168.0.100"
+    port: "22"
+    authentication_mode: "PASS"
+    commands:
+    - "echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCFGNysbfAbnJYM2BjVGW65at5utz1ELjB4GZ2lB0bXAow0HV8U3Ol4SJI6DiRHPhyIbNe8LoIegJPrQZ4HmL7+BXzQoC"
+    ignore_errors: true
+    run_as_script: true
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
